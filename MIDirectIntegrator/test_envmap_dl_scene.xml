@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scene version="0.5.0">
+	<integrator type="direct">
+		<float name="bsdfFraction" value="0.4"/>
+		<!--
+		sampleSum use sample bsdfFraction*bsdf+(1-bsdfFraction)*light
+		changeBsdfFracthion sample the larger value direction with higher prob(maybe with some problem)
+		if changeBsdfFracthion sit true sampleSum is useless, 
+		bsdfFraction set the bsdf sample fraction for actived method
+		changeBsdfFracthion_useFixFraction enable bsdfFraction for changeBsdfFracthion.
+		enbale this should show the same reslut as sampleSum.
+		set sampleSum and changeBsdfFracthion all false to enable mis.
+		-->
+		<boolean name="sampleSum" value="true"/>
+		<boolean name="changeBsdfFracthion" value="true"/>
+		<boolean name="changeBsdfFracthion_useFixFraction" value="false"/>
+	</integrator>
+<bsdf type="phong" id="glint-material">
+		<srgb name="diffuseReflectance" value="0.5 0.5 0.5"/>
+
+		<srgb name="specularReflectance" value="1 1 1"/>
+		<float name="exponent" value="1000"/>
+	</bsdf>
+	<shape type="obj" id="lucy:Me">
+		<string name="filename" value="standerd_sphere.obj"/>
+		<ref id="glint-material"/>
+	</shape>
+
+	<sensor type="perspective">
+		<float name="focusDistance" value="383.837"/>
+		<float name="fov" value="38.1848"/>
+		<string name="fovAxis" value="x"/>
+		<transform name="toWorld">
+
+			<lookat target="0, 0, -332.977" origin="0, 0, -333.977" up="0, 1, 0"/>
+		</transform>
+
+		<sampler type="independent">
+			<integer name="sampleCount" value="40"/>
+		</sampler>
+
+		<film type="hdrfilm">
+			<integer name="height" value="300"/>
+			<integer name="width" value="400"/>
+
+			<rfilter type="gaussian"/>
+		</film>
+	</sensor>
+
+	<emitter type="envmap" id="Hemi-light">
+		<string name="filename" value="envmap.hdr"/>
+	</emitter>
+</scene>
